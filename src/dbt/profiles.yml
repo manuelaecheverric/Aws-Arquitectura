@@ -1,0 +1,22 @@
+ecommerce_dw:
+  target: "{{ env_var('DBT_TARGET', 'local') }}"
+  outputs:
+    local:
+      type: duckdb
+      path: /opt/warehouse/warehouse.duckdb
+      schema: intermediate
+      threads: 1
+    # Versión AWS: Redshift Serverless. Sin secretos en el archivo: host, usuario y clave
+    # llegan por variables de entorno que scripts/aws/load_env.sh obtiene de Secrets Manager.
+    aws:
+      type: redshift
+      host: "{{ env_var('REDSHIFT_HOST') }}"
+      port: 5439
+      user: "{{ env_var('REDSHIFT_USER') }}"
+      password: "{{ env_var('REDSHIFT_PASSWORD') }}"
+      dbname: "{{ env_var('REDSHIFT_DATABASE', 'dev') }}"
+      schema: intermediate
+      threads: 4
+      sslmode: require
+      connect_timeout: 30
+      retries: 2
