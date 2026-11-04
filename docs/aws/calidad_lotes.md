@@ -16,6 +16,12 @@
 La marca de avance solo se mueve cuando el lote **quedó cargado en Redshift**. Si algo falla
 antes, la siguiente extracción incremental vuelve a traer esos registros: no se pierde nada.
 
+## Cómo identifico y recupero una ejecución fallida
+1. **Identificar**: `audit.pipeline_runs` marca la ejecución como `failed` con `failed_task`; `audit.batch_log` muestra
+   en qué entidad quedó el lote, y los logs de Airflow indican `[batch_id=N][task=...]`.
+2. **Recuperar**: reejecuto el DAG con `{"batch_id": N, "reprocess": true}`. Carga el lote desde S3 sin consultar las
+   fuentes; como cada `COPY` borra antes su lote y la marca de avance no se movió, no hay pérdida ni duplicación.
+
 ## Por qué no hay duplicados
 - **S3**: un lote completo no se puede sobrescribir (escritura condicional); un lote incompleto se reemplaza y el versionado guarda lo anterior.
 - **raw**: cada `COPY` borra antes las filas de su `_batch_id` dentro de la misma transacción.
@@ -25,14 +31,14 @@ antes, la siguiente extracción incremental vuelve a traer esos registros: no se
 
 ## Evidencias de los escenarios
 
-| Escenario | Cómo lo probé | Resultado observado | Evidencia (`s3://…/evidencias/`) |
+| Escenario | Cómo lo probé | Resultado observado | Evidencia ([`evidencias/3.5-calidad/`](../../evidencias/3.5-calidad/)) |
 |---|---|---|---|
-| Carga inicial | Lote 0 (extracción + `COPY` + `dbt build`) | 253 ventas, 150 reseñas, 500 eventos en `marts`; 129/129 pruebas | `lote0_*.log`, `dbt_build_E.log` |
-| Registros defectuosos | 34 filas defectuosas inyectadas por el generador | Rechazos en `quarantine.*` con `rejection_reason` y `_batch_id`. **32 rechazos en las 6 tablas** (16 reglas × 2), verificado el 3 nov 2026. De las 34 filas inyectadas, 2 son cabeceras de pedido válidas (sirven para aislar `subtotal_mismatch`), así que 32 es el total esperado. | `dbt_verificacion.log`, captura `evidencias/consulta 2.png` |
-| Repetición de un lote exitoso | `COPY` del lote 0 dos veces; DAG con `batch_id=1, reprocess=true` | Mismos conteos en `raw` y `marts`; total de ventas igual | `lote0_load.log`, `dag_reproceso.log` |
-| Nuevo lote incremental | `append_batch --batch-id 1` + DAG (lote 1) | Solo 3 pedidos, 3 líneas, 3 reseñas, 3 eventos nuevos; ventas 253 → 256 | `dag_lote1.log` |
-| Cambio en atributo historizado | `simulate_changes` (cliente 1 y producto 1) + DAG (lote 2) | Cliente 1: versión Bogotá cerrada el 2025-07-01, Medellín vigente; producto 1: Electrónica → Hogar | `scd2_cambio.log`, `scd2_resultado.log` |
-| Fallo controlado y reejecución | `append_batch --batch-id 3`; DAG `{"batch_id": 3, "fail_task": "load_to_redshift"}` y luego `{"batch_id": 3, "reprocess": true}` | 1ª ejecución: extracción OK (`extracted`), carga falla tras 2 reintentos, `pipeline_runs` = **failed** con `failed_task = load_to_redshift`; la marca de avance se queda en el lote 2 y los hechos no cambian (256). Reejecución desde S3 (sin consultar fuentes): **success**, marca en lote 3, hechos +3 (ventas 259, reseñas 156, eventos 506) | `fallo_1_estado.log`, `fallo_2_final.log`, `fallo_3_recuperacion.log` |
+| Carga inicial | Lote 0 (extracción + `COPY` + `dbt build`) | 253 ventas, 150 reseñas, 500 eventos en `marts`; 129/129 pruebas | 01–04; pruebas en `evidencias/3.3-redshift-dbt/` 12–18 |
+| Registros defectuosos | 34 filas defectuosas inyectadas por el generador | Rechazos en `quarantine.*` con `rejection_reason` y `_batch_id`. **32 rechazos en las 6 tablas** (16 reglas × 2), verificado el 3 nov 2026. De las 34 filas inyectadas, 2 son cabeceras de pedido válidas (sirven para aislar `subtotal_mismatch`), así que 32 es el total esperado. | 05 |
+| Repetición de un lote exitoso | `COPY` del lote 0 dos veces; DAG con `batch_id=1, reprocess=true` | Mismos conteos en `raw` y `marts`; total de ventas igual | 06, 08 |
+| Nuevo lote incremental | `append_batch --batch-id 1` + DAG (lote 1) | Solo 3 pedidos, 3 líneas, 3 reseñas, 3 eventos nuevos; ventas 253 → 256 | 06, 07 |
+| Cambio en atributo historizado | `simulate_changes` (cliente 1 y producto 1) + DAG (lote 2) | Cliente 1: versión Bogotá cerrada el 2025-07-01, Medellín vigente; producto 1: Electrónica → Hogar | 09–11 |
+| Fallo controlado y reejecución | `append_batch --batch-id 3`; DAG `{"batch_id": 3, "fail_task": "load_to_redshift"}` y luego `{"batch_id": 3, "reprocess": true}` | 1ª ejecución: extracción OK (`extracted`), carga falla tras 2 reintentos, `pipeline_runs` = **failed** con `failed_task = load_to_redshift`; la marca de avance se queda en el lote 2 y los hechos no cambian (256). Reejecución desde S3 (sin consultar fuentes): **success**, marca en lote 3, hechos +3 (ventas 259, reseñas 156, eventos 506) | 12–16 |
 
 ## Pruebas de calidad (dbt)
 - **Unicidad y no nulos**: llaves de staging, llaves subrogadas de dimensiones y hechos.
@@ -41,7 +47,7 @@ antes, la siguiente extracción incremental vuelve a traer esos registros: no se
 - **Reglas de negocio**: `accepted_values` de `rejection_reason`, canales y tipos de evento; fecha de negocio en hora de Bogotá; fechas de venta iguales a las de raw.
 - **Conciliación**: `assert_sales_totals_match_source_by_business_date` compara por día el subtotal de `fct_sales`
   con la fuente validada. Verifiqué el total global: origen válido = modelo = **7.293.790,26** (lote 0) y
-  **7.357.260,42** tras el lote 1. Tras el lote 3: **7.420.730,58** (259 ventas; misma cifra y conteo en `marts.rpt_sales_dashboard`), captura `evidencias/consulta 1.1.png` y `1.2.png`.
+  **7.357.260,42** tras el lote 1. Tras el lote 3: **7.420.730,58** (259 ventas; misma cifra y conteo en `marts.rpt_sales_dashboard`), evidencias 17–18.
 
 ### Conteo completo de la cuarentena
 Resultado que obtuve (3 nov 2026): 16 combinaciones entidad/motivo con 2 filas cada una = **32 rechazos**.
