@@ -1,0 +1,5 @@
+== pipeline_runs
+{'dag_run_id': 'manual__2026-11-01T21:46:00+00:00', 'batch_id': 1, 'status': 'success', 'failed_task': None}
+{'dag_run_id': 'manual__2026-11-01T21:49:31+00:00', 'batch_id': 1, 'status': 'success', 'failed_task': None}
+== hechos
+{'ventas': 256, 'resenas': 153, 'eventos': 503, 'total': '7357260.42'}

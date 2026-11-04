@@ -1,0 +1,14 @@
+=== CARGA 1 ===
+INFO s3_load batch_id=0 mysql.customers: archivo=54 filas, raw=54 filas
+INFO s3_load batch_id=0 mysql.products: archivo=27 filas, raw=27 filas
+INFO s3_load batch_id=0 mysql.orders: archivo=106 filas, raw=106 filas
+INFO s3_load batch_id=0 mysql.order_items: archivo=259 filas, raw=259 filas
+INFO s3_load batch_id=0 mongodb.reviews: archivo=158 filas, raw=158 filas
+INFO s3_load batch_id=0 mongodb.navigation_events: archivo=508 filas, raw=508 filas
+=== CARGA 2 ===
+INFO s3_load batch_id=0 mysql.customers: archivo=54 filas, raw=54 filas
+INFO s3_load batch_id=0 mysql.products: archivo=27 filas, raw=27 filas
+INFO s3_load batch_id=0 mysql.orders: archivo=106 filas, raw=106 filas
+INFO s3_load batch_id=0 mysql.order_items: archivo=259 filas, raw=259 filas
+INFO s3_load batch_id=0 mongodb.reviews: archivo=158 filas, raw=158 filas
+INFO s3_load batch_id=0 mongodb.navigation_events: archivo=508 filas, raw=508 filas

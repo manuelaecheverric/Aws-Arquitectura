@@ -1,0 +1,16 @@
+== pipeline_runs lote 3
+{'dag_run_id': 'manual__2026-11-02T00:49:42+00:00', 'batch_id': 3, 'status': 'running', 'failed_task': None, 'msg': None}
+== batch_log lote 3
+{'entity': 'customers', 'record_count': 54, 'loaded_count': None, 'status': 'extracted'}
+{'entity': 'navigation_events', 'record_count': 3, 'loaded_count': None, 'status': 'extracted'}
+{'entity': 'order_items', 'record_count': 3, 'loaded_count': None, 'status': 'extracted'}
+{'entity': 'orders', 'record_count': 3, 'loaded_count': None, 'status': 'extracted'}
+{'entity': 'products', 'record_count': 27, 'loaded_count': None, 'status': 'extracted'}
+{'entity': 'reviews', 'record_count': 3, 'loaded_count': None, 'status': 'extracted'}
+== marca de avance
+{'entity': 'navigation_events', 'last_value': '1000012', 'last_batch_id': 2}
+{'entity': 'order_items', 'last_value': '10000012', 'last_batch_id': 2}
+{'entity': 'orders', 'last_value': '1000012', 'last_batch_id': 2}
+{'entity': 'reviews', 'last_value': '1000012', 'last_batch_id': 2}
+== hechos
+{'ventas': 256, 'resenas': 153, 'eventos': 503}

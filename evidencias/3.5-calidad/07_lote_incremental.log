@@ -1,0 +1,11 @@
+== pipeline_runs
+{'dag_run_id': 'manual__2026-11-01T21:46:00+00:00', 'batch_id': 1, 'status': 'success', 'failed_task': None}
+== batch_log lote 1
+{'entity': 'customers', 'record_count': 54, 'loaded_count': 54, 'status': 'loaded'}
+{'entity': 'navigation_events', 'record_count': 3, 'loaded_count': 3, 'status': 'loaded'}
+{'entity': 'order_items', 'record_count': 3, 'loaded_count': 3, 'status': 'loaded'}
+{'entity': 'orders', 'record_count': 3, 'loaded_count': 3, 'status': 'loaded'}
+{'entity': 'products', 'record_count': 27, 'loaded_count': 27, 'status': 'loaded'}
+{'entity': 'reviews', 'record_count': 3, 'loaded_count': 3, 'status': 'loaded'}
+== hechos
+{'ventas': 256, 'resenas': 153, 'eventos': 503, 'total': '7357260.42'}

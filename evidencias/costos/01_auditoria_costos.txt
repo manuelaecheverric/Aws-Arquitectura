@@ -1,0 +1,67 @@
+######## REGION us-east-2
+-- Recursos con etiqueta owner=de-gr01-user-3:
+ec2:us-east-2:802655955683:security-group-rule/sgr-0cddbf065ac96a766
+ec2:us-east-2:802655955683:volume/vol-0a3ac19af86b8a5bd
+ec2:us-east-2:802655955683:security-group-rule/sgr-0e93e772892d24ad6
+ec2:us-east-2:802655955683:security-group-rule/sgr-0ababb2bcad8040cb
+ec2:us-east-2:802655955683:security-group-rule/sgr-0811c89845368ea7c
+secretsmanager:us-east-2:802655955683:secret:dw-user3/docdb/master-n81w0a
+ec2:us-east-2:802655955683:security-group-rule/sgr-0e1480038251ae340
+rds:us-east-2:802655955683:cluster:dw-user3-docdb
+rds:us-east-2:802655955683:cluster:cluster-oxgvj4zonu5w5tx5pdaaty5cki
+ec2:us-east-2:802655955683:security-group/sg-05cde9a654dd78860
+rds:us-east-2:802655955683:db:dw-user3-docdb-1
+redshift-serverless:us-east-2:802655955683:namespace/176af979-5da4-4dca-a3a6-900a2ad40f7d
+s3:::dw-user3-ecommerce-20261027
+rds:us-east-2:802655955683:subgrp:dw-user3-mysql-subnets
+rds:us-east-2:802655955683:db:dw-user3-mysql
+ec2:us-east-2:802655955683:security-group/sg-00531b21289674847
+redshift-serverless:us-east-2:802655955683:workgroup/cde08547-f51c-4be6-9b49-4a04e2c0f131
+secretsmanager:us-east-2:802655955683:secret:rds!db-565c2111-9b4c-4888-8ddb-23db3c008274-ZmGt0S
+ec2:us-east-2:802655955683:instance/i-0f5e5484314a28c2a
+ec2:us-east-2:802655955683:security-group-rule/sgr-00a78f538f4d9be9a
+ec2:us-east-2:802655955683:security-group/sg-071eb91af26a6d5a0
+rds:us-east-2:802655955683:subgrp:dw-user3-docdb-subnets
+-- EC2 dw-user3*:
+i-0f5e5484314a28c2a	stopped	t3.large	None
+-- RDS dw-user3*:
+dw-user3-docdb-1	docdb	stopped
+dw-user3-mysql	mysql	stopped
+-- DocumentDB dw-user3*:
+dw-user3-docdb	stopped
+-- Snapshots MANUALES RDS / DocumentDB:
+-- Redshift Serverless (workgroups / snapshots):
+dw-user3-workgroup	AVAILABLE	4
+-- Redshift aprovisionado dw-user3*:
+-- Elastic IPs mias:
+0
+-- NAT gateways mios:
+0
+-- Secretos del taller:
+redshift!dw-user3-namespace-dwadmin	dw-user3/docdb/master	rds!db-565c2111-9b4c-4888-8ddb-23db3c008274
+######## REGION us-east-1
+-- Recursos con etiqueta owner=de-gr01-user-3:
+iam::802655955683:instance-profile/dw-user3-ec2-profile
+-- EC2 dw-user3*:
+-- RDS dw-user3*:
+-- DocumentDB dw-user3*:
+-- Snapshots MANUALES RDS / DocumentDB:
+-- Redshift Serverless (workgroups / snapshots):
+-- Redshift aprovisionado dw-user3*:
+-- Elastic IPs mias:
+0
+-- NAT gateways mios:
+0
+-- Secretos del taller:
+######## EBS de la EC2
+vol-0a3ac19af86b8a5bd	30	gp3	in-use
+######## Volumenes EBS sueltos creados con mi etiqueta
+0
+######## S3
+Total Objects: 55
+   Total Size: 407618
+versiones de objetos: 66
+######## Uso de Redshift (RPU) ultimas 2 h, por hora
+2026-11-02T00:28:00+00:00	4.0
+2026-11-01T23:28:00+00:00	0.0
+FIN

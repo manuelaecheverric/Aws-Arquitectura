@@ -1,0 +1,12 @@
+== pipeline_runs
+{'dag_run_id': 'manual__2026-11-01T21:46:00+00:00', 'batch_id': 1, 'status': 'success'}
+{'dag_run_id': 'manual__2026-11-01T21:49:31+00:00', 'batch_id': 1, 'status': 'success'}
+{'dag_run_id': 'manual__2026-11-01T21:52:32+00:00', 'batch_id': 2, 'status': 'running'}
+== dim_customer cliente 1
+{'customer_id': 1, 'city': 'Bogotá', 'department': 'Bogotá, D.C.', 'valid_from': '2024-11-10 00:00:00', 'valid_to': '2025-07-01 00:00:00', 'is_current': False}
+{'customer_id': 1, 'city': 'Medellín', 'department': 'Antioquia', 'valid_from': '2025-07-01 00:00:00', 'valid_to': None, 'is_current': True}
+== dim_product producto 1
+{'product_id': 1, 'category': 'Electrónica', 'valid_from': '2025-01-01 00:00:00', 'valid_to': '2025-07-01 00:00:00', 'is_current': False}
+{'product_id': 1, 'category': 'Hogar', 'valid_from': '2025-07-01 00:00:00', 'valid_to': None, 'is_current': True}
+== hechos
+{'ventas': 256, 'total': '7357260.42'}

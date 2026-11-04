@@ -1,0 +1,13 @@
+{'tabla': 'raw.mongo_reviews', 'filas': 158}
+{'tabla': 'raw.mysql_customers', 'filas': 54}
+{'tabla': 'raw.mysql_orders', 'filas': 106}
+{'entity': 'customers', 'record_count': 54, 'loaded_count': 54, 'status': 'loaded'}
+{'entity': 'navigation_events', 'record_count': 508, 'loaded_count': 508, 'status': 'loaded'}
+{'entity': 'order_items', 'record_count': 259, 'loaded_count': 259, 'status': 'loaded'}
+{'entity': 'orders', 'record_count': 106, 'loaded_count': 106, 'status': 'loaded'}
+{'entity': 'products', 'record_count': 27, 'loaded_count': 27, 'status': 'loaded'}
+{'entity': 'reviews', 'record_count': 158, 'loaded_count': 158, 'status': 'loaded'}
+{'entity': 'navigation_events', 'last_value': '800007', 'last_batch_id': 0}
+{'entity': 'order_items', 'last_value': '800005', 'last_batch_id': 0}
+{'entity': 'orders', 'last_value': '800005', 'last_batch_id': 0}
+{'entity': 'reviews', 'last_value': '800007', 'last_batch_id': 0}
