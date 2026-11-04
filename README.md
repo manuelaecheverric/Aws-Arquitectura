@@ -3,7 +3,8 @@
 En este repositorio migré a AWS el data warehouse local (RDS for MySQL, DocumentDB,
 S3, Redshift Serverless, Airflow + dbt en EC2). Toda la documentación de la versión AWS
 está en **[docs/aws/](docs/aws/README.md)**: arquitectura, despliegue y eliminación, decisiones
-técnicas, calidad y lotes, costos y seguridad, y consultas de reporte.
+técnicas, calidad y lotes, costos y seguridad, y consultas de reporte. Las evidencias de funcionamiento están en
+**[evidencias/](evidencias/README.md)**.
 
 Conservé abajo la versión local original (Docker + DuckDB), que sigue funcionando con el perfil
 `local` de dbt.
