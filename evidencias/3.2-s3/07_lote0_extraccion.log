@@ -1,0 +1,11 @@
+2026-10-31 18:10:25,662 INFO botocore.credentials Found credentials from IAM Role: dw-user3-ec2-role
+2026-10-31 18:10:26,024 INFO s3_extract batch_id=0 mysql.customers: 54 filas -> s3://dw-user3-ecommerce-20261027/raw/mysql/customers/batch_id=0/customers.csv.gz
+2026-10-31 18:10:26,072 INFO s3_extract batch_id=0 mysql.products: 27 filas -> s3://dw-user3-ecommerce-20261027/raw/mysql/products/batch_id=0/products.csv.gz
+2026-10-31 18:10:26,111 INFO s3_extract batch_id=0 mysql.orders: 106 filas -> s3://dw-user3-ecommerce-20261027/raw/mysql/orders/batch_id=0/orders.csv.gz
+2026-10-31 18:10:26,158 INFO s3_extract batch_id=0 mysql.order_items: 259 filas -> s3://dw-user3-ecommerce-20261027/raw/mysql/order_items/batch_id=0/order_items.csv.gz
+2026-10-31 18:10:26,214 INFO pymongo.client You appear to be connected to a DocumentDB cluster. For more information regarding feature compatibility and support please vi
+2026-10-31 18:10:26,310 INFO s3_extract batch_id=0 mongodb.reviews: 158 filas -> s3://dw-user3-ecommerce-20261027/raw/mongodb/reviews/batch_id=0/reviews.csv.gz
+2026-10-31 18:10:26,310 INFO pymongo.client You appear to be connected to a DocumentDB cluster. For more information regarding feature compatibility and support please vi
+2026-10-31 18:10:26,438 INFO s3_extract batch_id=0 mongodb.navigation_events: 508 filas -> s3://dw-user3-ecommerce-20261027/raw/mongodb/navigation_events/batch_id=0/navig
+2026-10-31 18:10:26,468 INFO s3_extract batch_id=0 manifiesto -> s3://dw-user3-ecommerce-20261027/control/batches/batch_id=0/manifest.json
+2026-10-31 18:11:05,647 INFO s3_extract batch_id=0 registrado en audit.batch_log con estado 'extracted'

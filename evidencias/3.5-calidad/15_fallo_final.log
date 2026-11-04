@@ -1,0 +1,3 @@
+== pipeline_runs lote 3
+{'dag_run_id': 'manual__2026-11-02T00:49:42+00:00', 'batch_id': 3, 'status': 'failed', 'failed_task': 'load_to_redshift', 'msg': 'tareas con error: dbt_seed, dbt_run_intermediate, load_to_redshift, dbt_run_quar'}
+== batch_log lote 3

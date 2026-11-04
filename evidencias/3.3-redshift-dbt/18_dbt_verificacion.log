@@ -1,0 +1,20 @@
+== Conteos marts
+{'t': 'dim_customer', 'n': 50}
+{'t': 'dim_product', 'n': 25}
+{'t': 'fct_navigation_events', 'n': 500}
+{'t': 'fct_reviews', 'n': 150}
+{'t': 'fct_sales', 'n': 253}
+== Cuarentena (motivo, lote)
+{'e': 'customers', 'rejection_reason': 'invalid_email', '_batch_id': 0, 'n': 2}
+{'e': 'customers', 'rejection_reason': 'missing_name', '_batch_id': 0, 'n': 2}
+{'e': 'order_items', 'rejection_reason': 'orphan_order', '_batch_id': 0, 'n': 2}
+{'e': 'order_items', 'rejection_reason': 'orphan_product', '_batch_id': 0, 'n': 2}
+{'e': 'order_items', 'rejection_reason': 'subtotal_mismatch', '_batch_id': 0, 'n': 2}
+{'e': 'orders', 'rejection_reason': 'invalid_sales_channel', '_batch_id': 0, 'n': 2}
+{'e': 'orders', 'rejection_reason': 'orphan_customer', '_batch_id': 0, 'n': 2}
+{'e': 'reviews', 'rejection_reason': 'invalid_rating', '_batch_id': 0, 'n': 2}
+{'e': 'reviews', 'rejection_reason': 'missing_reviewed_at', '_batch_id': 0, 'n': 2}
+{'e': 'reviews', 'rejection_reason': 'orphan_customer', '_batch_id': 0, 'n': 2}
+{'e': 'reviews', 'rejection_reason': 'orphan_product', '_batch_id': 0, 'n': 2}
+== Conciliacion ventas totales
+{'origen_valido': '7293790.26', 'modelo_analitico': '7293790.26'}
