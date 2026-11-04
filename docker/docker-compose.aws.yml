@@ -1,0 +1,90 @@
+# Airflow en la EC2 (versión AWS). Las fuentes son RDS y DocumentDB, el almacén es Redshift:
+# aquí solo corren PostgreSQL (metadatos de Airflow), el webserver y el scheduler.
+# Uso (en la EC2, desde la raíz del repositorio):
+#   cp docker/.env.aws.example docker/.env.aws   # completar
+#   docker compose -f docker/docker-compose.aws.yml --env-file docker/.env.aws up -d --build
+name: de-dw-aws
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d airflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  airflow-init:
+    image: local/ecommerce-airflow-aws:2.11.2
+    build:
+      context: .
+      dockerfile: Dockerfile.aws
+    environment: &airflow-environment
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres/airflow
+      AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW_FERNET_KEY:?}
+      AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY:?}
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+      PYTHONPATH: /opt/airflow/src
+      # Solo ARNs y nombres: las contraseñas se leen de Secrets Manager con el rol de la EC2.
+      AWS_REGION: ${AWS_REGION:-us-east-2}
+      AWS_DEFAULT_REGION: ${AWS_REGION:-us-east-2}
+      S3_BUCKET: ${S3_BUCKET:?}
+      REDSHIFT_WORKGROUP: ${REDSHIFT_WORKGROUP:?}
+      REDSHIFT_DATABASE: ${REDSHIFT_DATABASE:-dev}
+      REDSHIFT_SECRET_ARN: ${REDSHIFT_SECRET_ARN:?}
+      MYSQL_HOST: ${MYSQL_HOST:?}
+      MYSQL_PORT: "3306"
+      MYSQL_DATABASE: ecommerce
+      MYSQL_SECRET_ARN: ${MYSQL_SECRET_ARN:?}
+      DOCDB_HOST: ${DOCDB_HOST:?}
+      DOCDB_SECRET_ARN: ${DOCDB_SECRET_ARN:?}
+      MONGO_DATABASE: ecommerce
+      DOCDB_CA_FILE: /opt/certs/global-bundle.pem
+      _AIRFLOW_DB_MIGRATE: "true"
+      _AIRFLOW_WWW_USER_CREATE: "true"
+      _AIRFLOW_WWW_USER_USERNAME: ${AIRFLOW_ADMIN_USERNAME:-airflow}
+      _AIRFLOW_WWW_USER_PASSWORD: ${AIRFLOW_ADMIN_PASSWORD:?}
+    user: "${AIRFLOW_UID:-1000}:0"
+    volumes: &airflow-volumes
+      - ../src/airflow/dags:/opt/airflow/dags
+      - ../src:/opt/airflow/src
+      - airflow_logs:/opt/airflow/logs
+      - /opt/certs:/opt/certs:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: version
+
+  airflow-webserver:
+    image: local/ecommerce-airflow-aws:2.11.2
+    command: webserver
+    environment: *airflow-environment
+    user: "${AIRFLOW_UID:-1000}:0"
+    volumes: *airflow-volumes
+    ports:
+      - "8080:8080"   # expuesto solo a la IP autorizada por el security group de la EC2
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-scheduler:
+    image: local/ecommerce-airflow-aws:2.11.2
+    command: scheduler
+    environment: *airflow-environment
+    user: "${AIRFLOW_UID:-1000}:0"
+    volumes: *airflow-volumes
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+
+volumes:
+  airflow_logs:
+  postgres_data:
