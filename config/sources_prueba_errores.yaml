@@ -1,0 +1,21 @@
+# Fuentes de prueba para demostrar manejo de errores. NO es la configuración real.
+sources:
+  - source_id: prueba_buena
+    medio: El Tiempo
+    seccion: Política
+    url: https://www.eltiempo.com/rss/politica.xml
+
+  - source_id: prueba_no_existe
+    medio: Prueba
+    seccion: Feed inexistente (espera HTTP 404)
+    url: https://www.eltiempo.com/rss/esta-seccion-no-existe.xml
+
+  - source_id: prueba_pagina_html
+    medio: Prueba
+    seccion: Página normal, no es feed (espera XML inválido)
+    url: https://www.eltiempo.com/justicia
+
+  - source_id: prueba_sin_conexion
+    medio: Prueba
+    seccion: Dominio inexistente (espera error de red)
+    url: https://feed-que-no-existe.invalid/rss.xml

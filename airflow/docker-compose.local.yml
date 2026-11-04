@@ -1,0 +1,16 @@
+x-creds: &creds
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+    - ../src:/opt/airflow/repo/src
+    - ../config:/opt/airflow/repo/config
+    - ../sql:/opt/airflow/repo/sql
+    - ${HOME}/.aws:/home/airflow/.aws:ro
+
+services:
+  airflow-init:
+    <<: *creds
+  webserver:
+    <<: *creds
+  scheduler:
+    <<: *creds

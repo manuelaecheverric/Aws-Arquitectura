@@ -1,0 +1,13 @@
+sources:
+  - source_id: eltiempo_justicia
+    medio: El Tiempo
+    seccion: Justicia
+    url: https://www.eltiempo.com/rss/justicia.xml
+  - source_id: eltiempo_arte_teatro
+    medio: El Tiempo
+    seccion: Arte y Teatro
+    url: https://www.eltiempo.com/rss/cultura_arte-y-teatro.xml
+  - source_id: eltiempo_politica
+    medio: El Tiempo
+    seccion: Politica
+    url: https://www.eltiempo.com/rss/politica.xml

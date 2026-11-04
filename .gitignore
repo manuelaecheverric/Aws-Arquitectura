@@ -1,0 +1,35 @@
+# Secretos y credenciales
+.env
+*.pem
+.aws/
+credentials
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.terraform/
+*.tfstate
+*.tfstate.backup
+tfplan
+.env
+__pycache__/
+logs/
+*.pem
+*.docx
+.terraform/
+*.tfstate
+*.tfstate.backup
+tfplan
+.env
+__pycache__/
+logs/
+*.pem
+*.docx
+tmp_bronze/
