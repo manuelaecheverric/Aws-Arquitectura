@@ -1,0 +1,13 @@
+.env
+.env.aws
+*.pem
+__pycache__/
+src/dbt/target/
+src/dbt/logs/
+src/dbt/dbt_packages/
+warehouse/
+.terraform/
+*.tfstate*
+.env.aws
+infra/terraform/terraform.tfvars
+infra/terraform/tfplan
